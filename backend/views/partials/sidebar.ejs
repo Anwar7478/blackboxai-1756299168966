@@ -1,0 +1,18 @@
+<aside class="sidebar">
+    <h3>TOP CATEGORIES</h3>
+    <ul>
+        <li><a href="/categories">All Categories</a></li>
+        <li><a href="/products?featured=1">Featured Products</a></li>
+        <li><a href="/products?new=1">New Arrivals</a></li>
+        <li><a href="/products?sale=1">Sale Items</a></li>
+        <li><a href="/products?top-rated=1">Top Rated</a></li>
+        <li><a href="/products?best-sellers=1">Best Sellers</a></li>
+    </ul>
+    
+    <div class="cart-summary" style="margin-top: 30px; padding: 15px; background: white; border-radius: 8px;">
+        <h4>Total Item (<%= cartCount || 0 %>)</h4>
+        <p style="margin: 10px 0;">Proceed To Checkout</p>
+        <p style="font-weight: bold; color: var(--primary-color);">৳0</p>
+        <a href="/cart" class="btn btn-primary" style="width: 100%; margin-top: 10px;">View Cart</a>
+    </div>
+</aside>
