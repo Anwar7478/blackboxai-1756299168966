@@ -1,0 +1,38 @@
+<header class="header">
+    <div class="header-top">
+        <div class="container">
+            <p>Free shipping on orders over ৳1000 | 24/7 Customer Support</p>
+        </div>
+    </div>
+    
+    <div class="header-main">
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">Heriken</a>
+                
+                <nav class="nav">
+                    <ul class="nav-menu">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/products">Products</a></li>
+                        <li><a href="/categories">Categories</a></li>
+                        <li><a href="/pages/about-us">About</a></li>
+                        <li><a href="/pages/contact-service-center">Contact</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="header-actions">
+                    <a href="/cart" class="cart-link">
+                        Cart
+                        <span class="badge"><%= cartCount || 0 %></span>
+                    </a>
+                    <a href="/wishlist" class="wishlist-link">
+                        Wishlist
+                        <span class="badge"><%= wishlistCount || 0 %></span>
+                    </a>
+                </div>
+                
+                <button class="mobile-menu-toggle" style="display: none;">☰</button>
+            </div>
+        </div>
+    </div>
+</header>
