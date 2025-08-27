@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <%- include('../partials/header') %>
+    
+    <div class="container">
+        <div class="main-layout">
+            <main class="main-content" style="width: 100%;">
+                <div class="section-header">
+                    <h1 class="section-title"><%= pageTitle %></h1>
+                </div>
+                
+                <div style="background: white; padding: 40px; border-radius: var(--border-radius); box-shadow: var(--shadow);">
+                    <h2>30-Day Warranty Policy</h2>
+                    
+                    <p>At Heriken, we stand behind the quality of our products and offer a comprehensive 30-day warranty policy to ensure your complete satisfaction.</p>
+                    
+                    <h3>What's Covered</h3>
+                    <ul>
+                        <li>Manufacturing defects</li>
+                        <li>Material defects</li>
+                        <li>Functional issues not caused by misuse</li>
+                        <li>Performance issues under normal usage conditions</li>
+                    </ul>
+                    
+                    <h3>What's Not Covered</h3>
+                    <ul>
+                        <li>Damage caused by misuse or abuse</li>
+                        <li>Normal wear and tear</li>
+                        <li>Damage from accidents or drops</li>
+                        <li>Water damage (unless product is waterproof)</li>
+                        <li>Damage from unauthorized repairs</li>
+                    </ul>
+                    
+                    <h3>How to Claim Warranty</h3>
+                    <ol>
+                        <li>Contact our customer service within 30 days of purchase</li>
+                        <li>Provide your order number and purchase receipt</li>
+                        <li>Describe the issue you're experiencing</li>
+                        <li>Follow the instructions provided by our support team</li>
+                    </ol>
+                    
+                    <h3>Warranty Process</h3>
+                    <p>Once we receive your warranty claim:</p>
+                    <ul>
+                        <li>We will review your claim within 2-3 business days</li>
+                        <li>If approved, we will provide a replacement or repair</li>
+                        <li>Return shipping will be covered by Heriken</li>
+                        <li>Processing time is typically 5-7 business days</li>
+                    </ul>
+                    
+                    <h3>Contact Information</h3>
+                    <p>For warranty claims or questions, please contact us:</p>
+                    <ul>
+                        <li>Email: warranty@heriken.com</li>
+                        <li>Phone: +880-XXX-XXXX</li>
+                        <li>Hours: 9 AM - 6 PM (Sunday to Thursday)</li>
+                    </ul>
+                    
+                    <p><strong>Note:</strong> This warranty is in addition to any statutory rights you may have under consumer protection laws.</p>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <%- include('../partials/footer') %>
+    
+    <script src="/js/main.js"></script>
+</body>
+</html>
