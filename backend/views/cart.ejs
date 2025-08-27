@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <%- include('partials/header') %>
+    
+    <div class="container">
+        <div class="main-layout">
+            <main class="main-content" style="width: 100%;">
+                <div class="section-header">
+                    <h1 class="section-title">Shopping Cart</h1>
+                </div>
+                
+                <% if (cart && cart.length > 0) { %>
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+                        <!-- Cart Items -->
+                        <div>
+                            <% cart.forEach(item => { %>
+                                <div class="cart-item">
+                                    <div class="item-image">
+                                        <% if (item.image) { %>
+                                            <img src="<%= item.image %>" alt="<%= item.name %>" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <% } else { %>
+                                            Product
+                                        <% } %>
+                                    </div>
+                                    
+                                    <div class="item-info">
+                                        <h3 class="item-name"><%= item.name %></h3>
+                                        <div class="item-price">৳<%= item.price %></div>
+                                    </div>
+                                    
+                                    <div class="quantity-controls" data-product-id="<%= item.id %>">
+                                        <button class="quantity-btn quantity-decrease">-</button>
+                                        <input type="number" class="quantity-input" value="<%= item.quantity %>" min="1">
+                                        <button class="quantity-btn quantity-increase">+</button>
+                                    </div>
+                                    
+                                    <div style="font-weight: bold; color: var(--primary-color);">
+                                        ৳<%= (item.price * item.quantity).toFixed(2) %>
+                                    </div>
+                                    
+                                    <button class="btn btn-secondary remove-item" data-product-id="<%= item.id %>" data-item-type="cart">
+                                        Remove
+                                    </button>
+                                </div>
+                            <% }) %>
+                        </div>
+                        
+                        <!-- Cart Summary -->
+                        <div style="background: var(--light-gray); padding: 20px; border-radius: var(--border-radius); height: fit-content;">
+                            <h3>Order Summary</h3>
+                            
+                            <% 
+                                let subtotal = 0;
+                                cart.forEach(item => {
+                                    subtotal += item.price * item.quantity;
+                                });
+                                let shipping = subtotal > 1000 ? 0 : 50;
+                                let tax = subtotal * 0.05;
+                                let total = subtotal + shipping + tax;
+                            %>
+                            
+                            <div style="margin: 20px 0;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                    <span>Subtotal:</span>
+                                    <span>৳<%= subtotal.toFixed(2) %></span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                    <span>Shipping:</span>
+                                    <span>৳<%= shipping.toFixed(2) %></span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                    <span>Tax (5%):</span>
+                                    <span>৳<%= tax.toFixed(2) %></span>
+                                </div>
+                                <hr style="margin: 15px 0;">
+                                <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
+                                    <span>Total:</span>
+                                    <span style="color: var(--primary-color);">৳<%= total.toFixed(2) %></span>
+                                </div>
+                            </div>
+                            
+                            <% if (subtotal > 1000) { %>
+                                <p style="color: var(--primary-color); font-size: 14px; margin-bottom: 15px;">
+                                    🎉 You qualify for free shipping!
+                                </p>
+                            <% } else { %>
+                                <p style="color: var(--text-light); font-size: 14px; margin-bottom: 15px;">
+                                    Add ৳<%= (1000 - subtotal).toFixed(2) %> more for free shipping
+                                </p>
+                            <% } %>
+                            
+                            <a href="/checkout" class="btn btn-primary" style="width: 100%; text-align: center; margin-bottom: 10px;">
+                                Proceed to Checkout
+                            </a>
+                            
+                            <a href="/products" class="btn btn-secondary" style="width: 100%; text-align: center;">
+                                Continue Shopping
+                            </a>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <!-- Empty Cart -->
+                    <div style="text-align: center; padding: 60px 20px;">
+                        <h2>Your cart is empty</h2>
+                        <p style="color: var(--text-light); margin: 20px 0;">
+                            Looks like you haven't added any items to your cart yet.
+                        </p>
+                        <a href="/products" class="btn btn-primary">Start Shopping</a>
+                    </div>
+                <% } %>
+            </main>
+        </div>
+    </div>
+    
+    <%- include('partials/footer') %>
+    
+    <script src="/js/main.js"></script>
+</body>
+</html>
