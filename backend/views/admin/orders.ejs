@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .admin-layout { display: flex; min-height: 100vh; }
+        .admin-sidebar { width: 250px; background: #2c3e50; color: white; padding: 0; position: fixed; height: 100vh; overflow-y: auto; }
+        .admin-header { background: var(--primary-color); color: white; padding: 20px; text-align: center; border-bottom: 1px solid #34495e; }
+        .admin-nav { padding: 0; }
+        .admin-nav ul { list-style: none; padding: 0; margin: 0; }
+        .admin-nav li { border-bottom: 1px solid #34495e; }
+        .admin-nav a { display: block; padding: 15px 20px; color: #bdc3c7; text-decoration: none; transition: all 0.3s; }
+        .admin-nav a:hover, .admin-nav a.active { background: #34495e; color: white; }
+        .admin-content { flex: 1; margin-left: 250px; padding: 30px; background: #f8f9fa; min-height: 100vh; }
+        .admin-header-bar { background: white; padding: 20px; margin: -30px -30px 30px -30px; border-bottom: 1px solid #dee2e6; display: flex; justify-content: space-between; align-items: center; }
+        .admin-table { background: white; border-radius: var(--border-radius); box-shadow: var(--shadow); overflow: hidden; }
+        .admin-table table { width: 100%; border-collapse: collapse; }
+        .admin-table th, .admin-table td { padding: 15px; text-align: left; border-bottom: 1px solid #dee2e6; }
+        .admin-table th { background: #f8f9fa; font-weight: 600; color: var(--text-color); }
+        .admin-table tr:hover { background: #f8f9fa; }
+        .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; text-transform: uppercase; }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-processing { background: #d1ecf1; color: #0c5460; }
+        .status-shipped { background: #d4edda; color: #155724; }
+        .status-delivered { background: #d4edda; color: #155724; }
+        .status-cancelled { background: #f8d7da; color: #721c24; }
+        .btn-sm { padding: 6px 12px; font-size: 12px; }
+        .btn-info { background: #17a2b8; color: white; border: none; }
+        .btn-info:hover { background: #138496; }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="admin-header">
+                <h2>Heriken Admin</h2>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="/admin/dashboard">📊 Dashboard</a></li>
+                    <li><a href="/admin/products">📦 Products</a></li>
+                    <li><a href="/admin/categories">📂 Categories</a></li>
+                    <li><a href="/admin/orders" class="active">🛒 Orders</a></li>
+                    <li><a href="/admin/customers">👥 Customers</a></li>
+                    <li><a href="/" target="_blank">🌐 View Website</a></li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="admin-content">
+            <div class="admin-header-bar">
+                <h1>Manage Orders</h1>
+            </div>
+            
+            <% if (orders && orders.length > 0) { %>
+                <div class="admin-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Payment</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% orders.forEach(order => { %>
+                                <tr>
+                                    <td><strong>#<%= order.id %></strong></td>
+                                    <td>
+                                        <%= order.user_name || 'Guest' %>
+                                        <% if (order.user_email) { %>
+                                            <br><small style="color: var(--text-light);"><%= order.user_email %></small>
+                                        <% } %>
+                                    </td>
+                                    <td><%= order.item_count || 0 %> items</td>
+                                    <td><strong>৳<%= order.total_amount %></strong></td>
+                                    <td>
+                                        <span class="status-badge status-<%= order.status %>">
+                                            <%= order.status %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge status-<%= order.payment_status %>">
+                                            <%= order.payment_status %>
+                                        </span>
+                                    </td>
+                                    <td><%= new Date(order.created_at).toLocaleDateString() %></td>
+                                    <td>
+                                        <a href="/admin/orders/<%= order.id %>" class="btn btn-sm btn-info">View Details</a>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } else { %>
+                <div class="admin-table">
+                    <div style="padding: 40px; text-align: center; color: var(--text-light);">
+                        <h3>No Orders Found</h3>
+                        <p>Orders will appear here when customers start placing them.</p>
+                    </div>
+                </div>
+            <% } %>
+        </main>
+    </div>
+    
+    <script src="/js/main.js"></script>
+</body>
+</html>
