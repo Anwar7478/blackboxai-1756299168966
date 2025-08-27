@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .admin-sidebar {
+            width: 250px;
+            background: #2c3e50;
+            color: white;
+            padding: 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .admin-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #34495e;
+        }
+        
+        .admin-nav {
+            padding: 0;
+        }
+        
+        .admin-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .admin-nav li {
+            border-bottom: 1px solid #34495e;
+        }
+        
+        .admin-nav a {
+            display: block;
+            padding: 15px 20px;
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .admin-nav a:hover,
+        .admin-nav a.active {
+            background: #34495e;
+            color: white;
+        }
+        
+        .admin-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 30px;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .admin-header-bar {
+            background: white;
+            padding: 20px;
+            margin: -30px -30px 30px -30px;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-table {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .admin-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .admin-table th,
+        .admin-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .admin-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .admin-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            border: none;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+            border: none;
+        }
+        
+        .btn-info:hover {
+            background: #138496;
+        }
+        
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+            border: none;
+        }
+        
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+        
+        .product-image {
+            width: 50px;
+            height: 50px;
+            background: var(--light-gray);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        
+        .badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .admin-content {
+                margin-left: 0;
+            }
+            
+            .admin-table {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="admin-header">
+                <h2>Heriken Admin</h2>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="/admin/dashboard">📊 Dashboard</a></li>
+                    <li><a href="/admin/products" class="active">📦 Products</a></li>
+                    <li><a href="/admin/categories">📂 Categories</a></li>
+                    <li><a href="/admin/orders">🛒 Orders</a></li>
+                    <li><a href="/admin/customers">👥 Customers</a></li>
+                    <li><a href="/" target="_blank">🌐 View Website</a></li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="admin-content">
+            <div class="admin-header-bar">
+                <h1>Manage Products</h1>
+                <div>
+                    <a href="/admin/products/add" class="btn btn-primary">Add New Product</a>
+                </div>
+            </div>
+            
+            <% if (products && products.length > 0) { %>
+                <div class="admin-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% products.forEach(product => { %>
+                                <tr>
+                                    <td>
+                                        <div class="product-image">
+                                            <% if (product.image) { %>
+                                                <img src="<%= product.image %>" alt="<%= product.name %>" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+                                            <% } else { %>
+                                                IMG
+                                            <% } %>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <strong><%= product.name %></strong>
+                                        <% if (product.sku) { %>
+                                            <br><small style="color: var(--text-light);">SKU: <%= product.sku %></small>
+                                        <% } %>
+                                    </td>
+                                    <td><%= product.category_name || 'Uncategorized' %></td>
+                                    <td>
+                                        <strong>৳<%= product.price %></strong>
+                                        <% if (product.original_price && product.original_price > product.price) { %>
+                                            <br><small style="text-decoration: line-through; color: var(--text-light);">৳<%= product.original_price %></small>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <span class="badge <%= product.stock > 10 ? 'badge-success' : 'badge-warning' %>">
+                                            <%= product.stock %> units
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <% if (product.is_featured) { %>
+                                            <span class="badge badge-success">Featured</span>
+                                        <% } %>
+                                        <% if (product.is_new) { %>
+                                            <span class="badge badge-warning">New</span>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a href="/admin/products/edit/<%= product.id %>" class="btn btn-sm btn-info">Edit</a>
+                                            <button onclick="deleteItem('/admin/products/<%= product.id %>', 'product')" class="btn btn-sm btn-danger">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } else { %>
+                <div class="admin-table">
+                    <div style="padding: 40px; text-align: center; color: var(--text-light);">
+                        <h3>No Products Found</h3>
+                        <p>Start by adding your first product to the store.</p>
+                        <a href="/admin/products/add" class="btn btn-primary">Add First Product</a>
+                    </div>
+                </div>
+            <% } %>
+        </main>
+    </div>
+    
+    <script src="/js/main.js"></script>
+    <script>
+        function deleteItem(url, itemName) {
+            if (confirm(`Are you sure you want to delete this ${itemName}?`)) {
+                fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showMessage(data.message, 'success');
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        showMessage(data.message, 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showMessage('An error occurred', 'error');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
