@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <%- include('partials/header') %>
+    
+    <div class="container">
+        <div class="main-layout">
+            <%- include('partials/sidebar') %>
+            
+            <main class="main-content">
+                <div class="section-header">
+                    <h1 class="section-title">All Products</h1>
+                    
+                    <!-- Search Form -->
+                    <form class="search-form" method="GET" style="display: flex; gap: 10px;">
+                        <input type="text" name="search" placeholder="Search products..." value="<%= search || '' %>" 
+                               style="padding: 10px; border: 1px solid var(--border-color); border-radius: var(--border-radius);">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                </div>
+                
+                <% if (search) { %>
+                    <p style="margin-bottom: 20px; color: var(--text-light);">
+                        Search results for "<%= search %>" (<%= products.length %> products found)
+                    </p>
+                <% } %>
+                
+                <div class="product-grid">
+                    <% if (products && products.length > 0) { %>
+                        <% products.forEach(product => { %>
+                            <div class="product-card">
+                                <div class="product-image">
+                                    <% if (product.image) { %>
+                                        <img src="<%= product.image %>" alt="<%= product.name %>" style="width: 100%; height: 100%; object-fit: cover;">
+                                    <% } else { %>
+                                        Product Image
+                                    <% } %>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-name">
+                                        <a href="/products/<%= product.id %>" style="text-decoration: none; color: inherit;">
+                                            <%= product.name %>
+                                        </a>
+                                    </h3>
+                                    <% if (product.category_name) { %>
+                                        <p style="color: var(--text-light); font-size: 14px; margin-bottom: 8px;">
+                                            <%= product.category_name %>
+                                        </p>
+                                    <% } %>
+                                    <div class="product-price">৳<%= product.price %></div>
+                                    <% if (product.original_price && product.original_price > product.price) { %>
+                                        <div style="text-decoration: line-through; color: var(--text-light); font-size: 14px;">
+                                            ৳<%= product.original_price %>
+                                        </div>
+                                    <% } %>
+                                    <div class="product-actions">
+                                        <button class="btn btn-primary add-to-cart" data-product-id="<%= product.id %>">
+                                            Add to Cart
+                                        </button>
+                                        <button class="btn btn-secondary add-to-wishlist" data-product-id="<%= product.id %>">
+                                            Wishlist
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <!-- No products found or placeholder -->
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                            <% if (search) { %>
+                                <h3>No products found for "<%= search %>"</h3>
+                                <p>Try searching with different keywords or browse our categories.</p>
+                                <a href="/products" class="btn btn-primary">View All Products</a>
+                            <% } else { %>
+                                <h3>No products available</h3>
+                                <p>Products will be displayed here once they are added to the database.</p>
+                            <% } %>
+                        </div>
+                    <% } %>
+                </div>
+                
+                <!-- Pagination -->
+                <% if (products && products.length > 0) { %>
+                    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 40px;">
+                        <% if (hasPrevPage) { %>
+                            <a href="?page=<%= currentPage - 1 %><%= search ? '&search=' + search : '' %>" 
+                               class="btn btn-secondary">Previous</a>
+                        <% } %>
+                        
+                        <span style="padding: 10px 20px; background: var(--light-gray); border-radius: var(--border-radius);">
+                            Page <%= currentPage %>
+                        </span>
+                        
+                        <% if (hasNextPage) { %>
+                            <a href="?page=<%= currentPage + 1 %><%= search ? '&search=' + search : '' %>" 
+                               class="btn btn-secondary">Next</a>
+                        <% } %>
+                    </div>
+                <% } %>
+            </main>
+        </div>
+    </div>
+    
+    <%- include('partials/footer') %>
+    
+    <script src="/js/main.js"></script>
+</body>
+</html>
