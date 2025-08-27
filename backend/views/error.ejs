@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title || 'Error' %> - Heriken</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <%- include('partials/header') %>
+    
+    <div class="container">
+        <div class="main-layout">
+            <main class="main-content" style="width: 100%;">
+                <div style="text-align: center; padding: 60px 20px;">
+                    <h1 style="font-size: 72px; color: var(--primary-color); margin-bottom: 20px;">
+                        <%= error.status || 500 %>
+                    </h1>
+                    
+                    <h2 style="margin-bottom: 20px;">
+                        <% if (error.status === 404) { %>
+                            Page Not Found
+                        <% } else if (error.status === 403) { %>
+                            Access Denied
+                        <% } else { %>
+                            Something Went Wrong
+                        <% } %>
+                    </h2>
+                    
+                    <p style="color: var(--text-light); margin-bottom: 30px; font-size: 18px;">
+                        <%= error.message || 'An unexpected error occurred' %>
+                    </p>
+                    
+                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <a href="/" class="btn btn-primary">Go Home</a>
+                        <a href="/products" class="btn btn-secondary">Browse Products</a>
+                        <button onclick="history.back()" class="btn btn-secondary">Go Back</button>
+                    </div>
+                    
+                    <% if (error.status === 404) { %>
+                        <div style="margin-top: 40px;">
+                            <h3>Popular Pages</h3>
+                            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+                                <a href="/products" style="text-decoration: none; color: var(--primary-color);">All Products</a>
+                                <a href="/categories" style="text-decoration: none; color: var(--primary-color);">Categories</a>
+                                <a href="/cart" style="text-decoration: none; color: var(--primary-color);">Shopping Cart</a>
+                                <a href="/wishlist" style="text-decoration: none; color: var(--primary-color);">Wishlist</a>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <%- include('partials/footer') %>
+    
+    <script src="/js/main.js"></script>
+</body>
+</html>
