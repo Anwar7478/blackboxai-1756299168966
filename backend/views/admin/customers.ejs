@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .admin-layout { display: flex; min-height: 100vh; }
+        .admin-sidebar { width: 250px; background: #2c3e50; color: white; padding: 0; position: fixed; height: 100vh; overflow-y: auto; }
+        .admin-header { background: var(--primary-color); color: white; padding: 20px; text-align: center; border-bottom: 1px solid #34495e; }
+        .admin-nav { padding: 0; }
+        .admin-nav ul { list-style: none; padding: 0; margin: 0; }
+        .admin-nav li { border-bottom: 1px solid #34495e; }
+        .admin-nav a { display: block; padding: 15px 20px; color: #bdc3c7; text-decoration: none; transition: all 0.3s; }
+        .admin-nav a:hover, .admin-nav a.active { background: #34495e; color: white; }
+        .admin-content { flex: 1; margin-left: 250px; padding: 30px; background: #f8f9fa; min-height: 100vh; }
+        .admin-header-bar { background: white; padding: 20px; margin: -30px -30px 30px -30px; border-bottom: 1px solid #dee2e6; display: flex; justify-content: space-between; align-items: center; }
+        .admin-table { background: white; border-radius: var(--border-radius); box-shadow: var(--shadow); overflow: hidden; }
+        .admin-table table { width: 100%; border-collapse: collapse; }
+        .admin-table th, .admin-table td { padding: 15px; text-align: left; border-bottom: 1px solid #dee2e6; }
+        .admin-table th { background: #f8f9fa; font-weight: 600; color: var(--text-color); }
+        .admin-table tr:hover { background: #f8f9fa; }
+        .badge { padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 500; }
+        .badge-success { background: #d4edda; color: #155724; }
+        .badge-warning { background: #fff3cd; color: #856404; }
+        .customer-avatar { width: 40px; height: 40px; background: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="admin-header">
+                <h2>Heriken Admin</h2>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="/admin/dashboard">📊 Dashboard</a></li>
+                    <li><a href="/admin/products">📦 Products</a></li>
+                    <li><a href="/admin/categories">📂 Categories</a></li>
+                    <li><a href="/admin/orders">🛒 Orders</a></li>
+                    <li><a href="/admin/customers" class="active">👥 Customers</a></li>
+                    <li><a href="/" target="_blank">🌐 View Website</a></li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="admin-content">
+            <div class="admin-header-bar">
+                <h1>Manage Customers</h1>
+            </div>
+            
+            <% if (customers && customers.length > 0) { %>
+                <div class="admin-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Orders</th>
+                                <th>Total Spent</th>
+                                <th>Joined</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% customers.forEach(customer => { %>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <div class="customer-avatar">
+                                                <%= customer.name.charAt(0).toUpperCase() %>
+                                            </div>
+                                            <div>
+                                                <strong><%= customer.name %></strong>
+                                                <br><small style="color: var(--text-light);">ID: #<%= customer.id %></small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><%= customer.email %></td>
+                                    <td><%= customer.phone || 'Not provided' %></td>
+                                    <td>
+                                        <span class="badge <%= customer.order_count > 0 ? 'badge-success' : 'badge-warning' %>">
+                                            <%= customer.order_count || 0 %> orders
+                                        </span>
+                                    </td>
+                                    <td><strong>৳<%= customer.total_spent || 0 %></strong></td>
+                                    <td><%= new Date(customer.created_at).toLocaleDateString() %></td>
+                                    <td>
+                                        <span class="badge badge-success">Active</span>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } else { %>
+                <div class="admin-table">
+                    <div style="padding: 40px; text-align: center; color: var(--text-light);">
+                        <h3>No Customers Found</h3>
+                        <p>Customer accounts will appear here when users register on your website.</p>
+                    </div>
+                </div>
+            <% } %>
+        </main>
+    </div>
+    
+    <script src="/js/main.js"></script>
+</body>
+</html>
